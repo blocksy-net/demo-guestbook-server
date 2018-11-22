@@ -1,0 +1,224 @@
+---
+grails:
+    profile: react
+    codegen:
+        defaultPackage: blocksy.app.guestbook
+    spring:
+        transactionManagement:
+            proxies: false
+    gorm:
+        reactor:
+            events: false
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+spring:
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+endpoints:
+    enabled: false
+    jmx:
+        enabled: true
+
+---
+grails:
+    mime:
+        disable:
+            accept:
+                header:
+                    userAgents:
+                        - Gecko
+                        - WebKit
+                        - Presto
+                        - Trident
+        types:
+            json:
+              - application/json
+              - text/json   
+            hal:
+              - application/hal+json
+              - application/hal+xml  
+            xml:
+              - text/xml
+              - application/xml                                 
+            atom: application/atom+xml
+            css: text/css
+            csv: text/csv
+            js: text/javascript
+            rss: application/rss+xml
+            text: text/plain
+            all: '*/*'            
+    urlmapping:
+        cache:
+            maxsize: 1000
+    controllers:
+        defaultScope: singleton
+    converters:
+        encoding: UTF-8
+    views:
+        gsp:
+            encoding: UTF-8
+---
+grails:
+    cors:
+        enabled: true
+---
+grails:
+    resources:
+        pattern: /**
+---
+grails:
+# === mail : SMTP server needed to send mail to users publishing messages
+# Additional props may be needed for SSL and gmail SMTP servers (see 'props:' below)
+   mail:
+     host: "your-smtp-server.com"
+     port: 25
+     username: ""
+     password: ""
+     props:
+         #mail.smtp.auth: true
+         #mail.smtp.socketFactory.port: 465
+         #mail.smtp.socketFactory.class: "javax.net.ssl.SSLSocketFactory"
+         #mail.smtp.socketFactory.fallback: false
+---
+server:
+    address: 0.0.0.0
+    port: 8080        # The port to listen on
+
+---
+appconfig:
+  app_version: "${info.app.version}"
+  title:
+     fr_FR: "Démo Symag"
+     en_US: "Symag demo"
+  desc:
+     fr_FR: "Démo livre d'or Symag"
+     en_US: "Symag guestbook demo"
+  log_display_url: ""  #reserved for future use, leave empty
+  blocksy_website_url:
+     fr_FR: "https://blocksy-test.symag.com/doku.php/blocksy:fr"
+     en_US: "https://blocksy-test.symag.com/doku.php/blocksy:en"
+  terms_url:
+     fr_FR: "https://blocksy-test.symag.com/doku.php/blocksy:fr:blocksy:demoapps:cgu:Symag"
+     en_US: "https://blocksy-test.symag.com/doku.php/blocksy:en:blocksy:demoapps:cgu:Symag"
+  logo_url: "https://blocksy-test.symag.com/lib/exe/fetch.php/blocksy:securedbyblocksy.png"
+  banner_url: "https://blocksy-wiki.symag.com/lib/exe/fetch.php/blocksy:blocksy_bannieres_popupmoneyexperience.png"
+  default_locale: "fr_FR" #fr_FR, en_US, en_GB, etc. ISO639-1 and ISO3166 norms
+  external_url: "http://localhost:8081" # root of webapp (need to match with guestbook client url)
+  event_start_datetime: 1542719556 # guestbook start time (unix epoch time)
+  allow_duplicate_user: true # add an unique uuid to user identifier to allow duplicate use of an email (true / false)
+  nb_user_max: 1500  # maximum users allowed to publish message
+  donation:
+    amount_max: 200 # maximum donation amount allowed 
+    enabled: true # (true / false)
+    desc: 
+     fr_FR: "Choisissez une association : Action contre la faim ou Planète Urgence. Grâce à vous SYMAG fait un micro-don de 1€ (MODE SIMULATION DANS LEQUEL LE MICRO-DON NE SERA PAS RÉALISÉ). Transaction stockée dans la Blockchain."
+     en_US: "Choose a charity to help : Action contre la faim or Planète Urgence. SYMAG gives a 1€ micro-donation to this charity (SIMULATION MODE IN WHICH THE MICRO-DONATION WILL NOT BE REALIZED). Transaction store in the Blockchain."
+    donator:
+     fr_FR: "Le fonds de dotation \"Le Réflexe Solidaire\" collecte et distribue les dons."
+     en_US: "\"Le Réflexe Solidaire\" endowment fund collects and distributes the donations."
+    rules:
+     fr_FR: "Opération limitée aux 200 premiers participants."
+     en_US: "Only for the first 200 participants."
+  investment:
+    currency: "EUR" # EUR, USD, etc. (see ISO4217) 
+    amount_per_user: 1 # amount of currency given at user creation
+    amount_total: 200 # maximum amount given to users
+
+  owner:
+    name: "Symag"
+    event: "Event Symag"
+    multichain_id: "ad87c432-a724-12d8-a041-c5a351d58f0a" # multichain_id is given when you create your Entity with BlockSY
+    
+  blocksy_api:
+      protocol: "https"
+      IP: "blocksy-demo.symag.com/symag/blocksy" #address of a BlockSY instance
+      port: 80
+      version: "v1"
+
+  blocksy_nodes:
+#Ethereum : ETH, RINKEBY (testnet)
+    - crypto_currency: "RINKEBY" 
+      type_uid: "0d3332ad-89e0-4d90-9312-c64085049747" #blockchain type created with BlockSY
+      owner_pubkey: "d331c682941c6a1b7a4f82a5f6ff9e60f3a8fee4" # Public key hash given when you create your Entity with BlockSY
+      owner_privkey: "7d0a27d91ba3623ad445776bd4272143e1613595834a575a8e312012cad26ba9" # Private key given when you create your Entity with BlockSY
+      transaction_min_amount: 30000000000000 #Ethereum (wei) : Ethereum can do transactions with no value. Just specify here gas needed to do donation transaction
+      transaction_min_amount_currency: "ETH" #ETH : Ethereum ISO currency code
+      
+#Bitcoin Cash : BCC (mainnet), tBCC (testnet)
+    - crypto_currency: "tBCC" 
+      type_uid: "b8e36033-9536-42a5-812e-f9606ca4c1ef" #blockchain type created with BlockSY
+      owner_pubkey: "74c3a7ab2144ca7c256c1a71ac9a24056a11f281" # Public key hash given when you create your Entity with BlockSY
+      owner_privkey: "ac1114c1314c1a5c121a1c11753a21a8c161af723209f5607aa21ba1df1211a9" # Private key given when you create your Entity with BlockSY
+      transaction_min_amount: 2056 #Bitcoin Cash (satoshi) : minimal satoshi for a transaction, include also future user operation fee to donate to one organisation
+      transaction_min_amount_currency: "XBC" #XBC : Bitcoin Cash ISO currency code
+  block_explorer_url:
+    BCC: "https://bch.blockdozer.com/tx/${transactionHash}"
+    tBCC: "https://www.blocktrail.com/tBCC/tx/${transactionHash}"
+    ETH: "https://etherscan.io/tx/${transactionHash}"
+    RINKEBY: "https://rinkeby.etherscan.io/tx/${transactionHash}"
+  message:
+    enabled: true
+    encrypted: true
+    max_size: 80
+
+  email:
+    sender_email: "your-email@your-provider.com" #specify email used by guestbook to send email
+
+  twitter:
+      consumer_key: "A1ZXma7FcMw2LEFAjcD5h2SPa"
+      consumer_secret: "XabwnaOcTIH27QcBhwFNGrNSLQn5ucBNA2D4x82BmyabCqVRaB"
+      hashtags: "#symag #blockchain"
+      blocksy_screen_name: "@blocksy_net"
+      tweet: true
+      http_proxy: "" #proxy host name and port if needed (host:port)
+      advert_url:
+         fr_FR: "https://blocksy-wiki.symag.com/lib/exe/fetch.php/blocksy:blocksy-experience-fr.png"
+         en_US: "https://blocksy-wiki.symag.com/lib/exe/fetch.php/blocksy:blocksy-experience-en.png"
+  organisations:
+    - name:
+         fr_FR: "Action contre la faim"
+         en_US: "Action contre la faim"
+      desc:
+         fr_FR: "Notre mission est de sauver des vies en éliminant la faim par la prévention, la détection et le traitement de la sous-nutrition, en particulier pendant et après les situations d’urgence liées aux conflits et aux catastrophes naturelles."
+         en_US: "Our mission is to save lives eradicating hunger through the prevention, detection, and treatment of malnutrition, in particular during and after emergency situations caused by conflicts and natural disasters."
+      operation:
+         fr_FR: "1€ pour 2 jours de traitement à base de pâte thérapeutique pour un enfant atteint de sous-nutrition"
+         en_US: "1€ for 2 days of ready-to-use therapeutic food (RUTF) treatment for a child suffering from malnutrition"
+      url: "https://www.actioncontrelafaim.org"
+      logo_url: "https://blocksy-test.symag.com/lib/exe/fetch.php/blocksy:demo:action_contre_la_faim.jpg"
+      microdon_id: "acf"
+      multichain_id: "b1237b1c-2f38-72c4-cafd-22abf2c8c7ca"
+      blocksy_nodes:
+        RINKEBY: 
+          pubkey: "a1c17a237c82acf31ca25412881fca641228921a"
+          privkey: "24672cd724321c13282a9a027c32d19812542acf7d8425af4d8364c2f2a56a2f"
+        tBCC:
+          pubkey: "fc2319f4bc1432471518cd428c6cacb9c667c5a8"
+          privkey: "ac29fb3a2c2f53a1c25ac3b8d4922c2b92f321a7345ac90917cc12f0a8cd84b1"
+
+    - name:
+         fr_FR: "Planète urgence"
+         en_US: "Planete urgence"
+      desc:
+         fr_FR: "Créée en 2000, l'association Planète Urgence est une ONG qui vise à renforcer l'autonomie des populations et la protection de leur environnement. Reconnue d'utilité publique, ses actions se centralisent autour de la formation et l'accompagnement professionnels des adultes, l'appui socio-éducatif, et la restauration de l'environnement."
+         en_US: "Created in 2000, the association Planète Urgence is an NGO that aims to strengthen people's autonomy and the protection of their environment. Recognized as a public utility, its actions are centered around professional training and support for adults, socio-educational support, and environmental restoration."
+      operation:
+         fr_FR: "1€ pour un élément d'un kit scolaire"
+         en_US: "1 € for an element of a school kit"
+      url: "http://www.planete-urgence.org"
+      logo_url: "https://blocksy-test.symag.com/lib/exe/fetch.php/blocksy:demo:planete_urgence.png"
+      microdon_id: "PLNT_URG_75"
+      multichain_id: "219a55a2-b91a-4395-cadb-ab7c125c3189"
+      blocksy_nodes:
+        RINKEBY:
+          pubkey: "5224621a2b106653aac12528eab8a220b3a2c291"
+          privkey: "153b21a66b4ca23a8ab22342a9b1fac5cbf12ad9c259563141f79c1da9ca2a9a"
+        tBCC:
+          pubkey: "1e693b1bb52f43227e4ffd5950c02c8f88232195"
+          privkey: "2d613f42da790e1d146993adbb9820eee4c587080f1b80b7bc206cad9ee2f9f8"

@@ -1,0 +1,83 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "com.moowork.gradle:gradle-node-plugin:0.13"
+        classpath "org.grails.plugins:views-gradle:1.1.6"
+    }
+}
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
+}
+
+apply plugin:"eclipse"
+apply plugin:"idea"
+apply plugin:"org.grails.grails-web"
+apply plugin:"com.moowork.node"
+apply plugin:"org.grails.plugins.views-json"
+apply plugin:"org.grails.grails-gsp"
+
+if (project['version'] != 'unspecified') {
+    version project['version']
+} else {
+    version "${getDate()}-SNAPSHOT"
+}
+group "blocksy.app.guestbook"
+//Fixed filename to avoid problems with linux service
+jar.archiveName = "server-0.1.jar"
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-logging"
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.grails:grails-core"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-plugin-url-mappings"
+    compile "org.grails:grails-plugin-rest"
+    compile "org.grails:grails-plugin-codecs"
+    compile "org.grails:grails-plugin-interceptors"
+    compile "org.grails:grails-plugin-services"
+    compile "org.grails:grails-plugin-datasource"
+    compile "org.grails:grails-plugin-databinding"
+    compile "org.grails:grails-web-boot"
+    compile "org.grails:grails-logging"
+    compile "org.grails.plugins:cache"
+    compile "org.grails.plugins:async"
+    compile "org.grails.plugins:views-json"
+    compile "org.grails.plugins:views-json-templates"
+    compile "org.grails:grails-datastore-rest-client"
+    compile 'org.grails.plugins:quartz:2.0.13'
+    compile 'org.grails.plugins:mail:2.0.0'
+    compile "net.logstash.logback:logstash-logback-encoder:4.11"
+    compile 'org.grails.plugins:gsp:3.3.0'
+    compile 'com.google.guava:guava:24.0-jre'
+    compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
+    compile "org.grails.plugins:rxjava"
+
+    console "org.grails:grails-console"
+    profile "org.grails.profiles:react"
+    runtime "org.glassfish.web:el-impl:2.1.2-b03"
+    runtime "org.apache.tomcat:tomcat-jdbc"
+    runtime "org.grails.plugins:async:3.3.1"
+    testCompile "org.grails:grails-gorm-testing-support"
+    testCompile "org.grails:grails-datastore-rest-client"
+    testCompile "org.grails:grails-web-testing-support"
+    testCompile "org.grails:grails-test-mixins:3.3.0"
+}
+
+bootRun {
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+    //jvmArgs('-Dapp.config.location=/blocksy-guestbook/appconfig-bis.yml')
+    addResources = true
+}
