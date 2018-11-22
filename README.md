@@ -21,9 +21,9 @@ server\grails-app\conf\application.yml
 gradlew server:bootRun
 ```
 
-## Once started,test by opening server root from browser :
+## Once started,test by opening server settings API from browser :
 ```
-http://localhost:8080
+http://localhost:8080/api/settings
 ```
 
 ## build the production final .jar archive
